@@ -1,0 +1,9 @@
+# Chapitre 12 — RoleRegistry : la gouvernance par roles granulaires et delais de timelock differencies
+
+Plutot qu'un unique proprietaire ou un unique multisig controlant l'ensemble du protocole, `RoleRegistry.sol` centralise neuf roles distincts, chacun documente avec le mecanisme de gouvernance et le delai qui l'actionnent : `UPGRADE_TIMELOCK_ROLE` (mises a niveau de contrats, verrouillees par un timelock de 10 jours), `OPERATION_TIMELOCK_ROLE` (changements operationnels courants, timelock de 2 jours), `OPERATION_MULTISIG_ROLE` (un multisig 4-sur-7 pour les decisions operationnelles rapides), `SUPER_GUARDIAN_ROLE` et `GUARDIAN_ROLE` (pause d'urgence des transferts eETH/weETH et blacklisting, ce dernier explicitement attribue a la fois a des cles EOA et a un service de detection automatisee « hypernative »), ainsi que des roles operationnels specialises (`ORACLE_OPERATIONS_ROLE`, `HOUSEKEEPING_OPERATIONS_ROLE`, `EXECUTOR_OPERATIONS_ROLE`, `EIGENPOD_OPERATIONS_ROLE`).
+
+Cette granularite reflete un principe de moindre privilege : une action a faible risque et haute frequence comme la creation de validateurs (`EXECUTOR_OPERATIONS_ROLE`, utilisee au chapitre 6) est confiee a un role operationnel reactif, tandis qu'une mise a niveau de contrat qui pourrait modifier le comportement fondamental du protocole passe obligatoirement par le timelock le plus long. Le contrat s'appuie sur `EnumerableRoles` de la librairie Solady pour une gestion efficace en gas des attributions de roles multiples par adresse.
+
+Un `revokeAdmin` immuable et distinct des autres roles est prevu specifiquement pour la revocation d'urgence de roles compromis, une fonction de secours separee du reste de la hierarchie afin de rester utilisable meme si une partie de la gouvernance normale est elle-meme compromise.
+
+[Chapitre suivant : limites et perimetre](13-limites-et-perimetre.md)
