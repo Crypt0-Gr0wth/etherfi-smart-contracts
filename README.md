@@ -1,3 +1,7 @@
+## Parcours francais
+
+Ce depot contient un parcours pedagogique en francais dans docs/fr/ : lecture commentee d ether.fi, le protocole de liquid restaking fonde sur eETH et le LiquidityPool, avec restaking natif via EigenPod, un mecanisme par chapitre, sans aucune installation ni execution du projet.
+
 # ether.fi Liquid Restaking Protocol
 
 
